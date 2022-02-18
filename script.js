@@ -24,6 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let firstCard, secondCard;
     let hasFlippedCard = false;
     let blockFlip = false;
+    let countOfMoves = 0;
 
     const createElement = (html, className, dataAttr) => {
         const el = document.createElement('div');
@@ -82,7 +83,14 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             secondCard = elem;
             checkCards();
+            setCountOfMoves();
         }
+    }
+
+    const setCountOfMoves = () => {
+        countOfMoves++;
+        const dMovies = document.querySelector('.moves');
+        dMovies.innerHTML = countOfMoves;
     }
 
     const checkCards = () => {

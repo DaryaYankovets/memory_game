@@ -8,7 +8,13 @@
     <title>Memory game</title>
 </head>
 <body>
-    <div class="container">
+    <main class="container-main">
+        <section class="count-moves">
+            <span>
+                Count of moves: <span class="moves">0</span>
+            </span>
+        </section>
+
         <section class="btns-levels">
             <button class="btn" data-btn="easy">Easy</button>
             <button class="btn" data-btn="middle">Middle</button>
@@ -18,8 +24,25 @@
         <section class="field-cards">
             <h1 class="title">Start game!</h1>
         </section>
-        
-    </div>
+    </main>
+    
+    <footer class="container-footer">
+        <ul>
+            <li>
+              <a href="https://github.com/DaryaYankovets" target="_blank">
+                  <img src="./assets/svg/github.svg" width="80" height="30" alt="GitHub">
+              </a>
+            </li>
+            <li>
+                <a href="https://rs.school" target="_blank">
+                    <img src="./assets/svg/rs_school_js.svg" width="80" height="30"  alt="RSSchool">
+                </a>
+            </li>
+            <li>
+                <p>2022 by Yankovets Darya</p>
+            </li>
+          </ul>
+    </footer>
 </body>
 <script src="./script.js"></script>
 </html>
