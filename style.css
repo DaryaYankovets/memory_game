@@ -21,7 +21,9 @@ body {
     margin: auto;
 }
 
-.count-moves {
+.information-block {
+    display: flex;
+    justify-content: space-between;
     font-size: 30px;
     color: var(--color-gold);
 }
