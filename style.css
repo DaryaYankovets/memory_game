@@ -1,0 +1,100 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    height: 100vh;
+    display: flex;
+    background-image: url('./assets/img/bg.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+:root {
+    --color-gold: #bdae82;
+    --color-white: #ffffff;
+    --color-black: #000000;
+}
+
+.container {
+    margin: auto;
+}
+
+.btns-levels {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 70px;
+}
+
+.btn {
+    margin: 5px;
+    width: 150px;
+    height: 50px;
+    border: 1px solid var(--color-gold);
+    border-radius: 20px;
+    font-size: 20px;
+    background-color: var(--color-gold);
+}
+
+.btn:hover {
+    background: var(--color-gold);
+    box-shadow: 0 0 5px var(--color-gold), 0 0 25px var(--color-gold), 0 0 50px var(--color-gold), 0 0 200px var(--color-gold);
+    color: var(--color-white);
+    transition: 0.5s;
+}
+
+.btn:active {
+    background-color: var(--color-white);
+    color: var(--color-black);
+}
+  
+.field-cards {
+    display: flex;
+    flex-wrap: wrap;
+    margin: auto;
+    width: 320px;
+    height: 320px;
+    perspective: 1000px;
+}
+
+.memory-card {
+    position: relative;
+    margin: 5px;
+    width: calc(50% - 10px);
+    height: calc(50% - 10px);
+    transform: scale(1);
+    transform-style: preserve-3d;
+    transition: transform .5s;
+}
+
+.memory-card:active {
+    transform: scale(0.93);
+    transition: transform 0.4s;
+}
+
+.memory-card.flip {
+    transform: rotateY(180deg);
+  }
+
+.front-side, .back-side {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: 25px;
+
+    backface-visibility: hidden;
+}
+
+.front-side {
+    transform: rotateY(180deg);
+} 
+
+
+
+
+
