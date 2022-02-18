@@ -19,6 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     let cards = document.querySelectorAll('.memory-card');
     const fieldCards = document.querySelector('.field-cards');
+    const btnsLevel = document.querySelector('.btns-levels');
 
     let firstCard, secondCard;
     let hasFlippedCard = false;
@@ -31,6 +32,10 @@ document.addEventListener('DOMContentLoaded', () => {
         el.dataset.animal = dataAttr;
         return el;
     } 
+
+    const shuffleArray = (arrayCards) => {
+        return arrayCards.sort(() => Math.random() - 0.5);     
+    }
 
     const renderCard = (nameCard) => {
         const card = createElement(
@@ -48,7 +53,8 @@ document.addEventListener('DOMContentLoaded', () => {
         fieldCards.style.width = widthField;  
         fieldCards.style.height = heightField;
         
-        const nameAnimals = arrCards[level];
+        const nameAnimals = shuffleArray(arrCards[level]);
+        
         fieldCards.innerHTML = '';
         nameAnimals.forEach(card => renderCard(card));
 
@@ -64,11 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     const flipCard = (elem) => {
-        if (blockFlip) {
-            return;
-        }
-
-        if (elem === firstCard) {
+        if (blockFlip || elem === firstCard) {
             return;
         }
 
@@ -79,7 +81,6 @@ document.addEventListener('DOMContentLoaded', () => {
             firstCard = elem;
         } else {
             secondCard = elem;
-
             checkCards();
         }
     }
@@ -110,8 +111,16 @@ document.addEventListener('DOMContentLoaded', () => {
         [firstCard, secondCard] = [null, null];
     }
  
+    const setActiveBtn = (elem) => {
+        btnsLevel.querySelectorAll('.btn').forEach(btn => {
+            if (btn.closest('.btn-active')) {
+                btn.classList.remove('btn-active');
+            }
+        });
+        elem.classList.add('btn-active');
+    }
 
-    document.querySelector('.btns-levels').addEventListener('click', (event) => {
+    btnsLevel.addEventListener('click', (event) => {
         if (event.target.closest('.btn')) {
             const activeBtn = event.target.dataset.btn;
 
@@ -129,7 +138,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     renderField('320px', '320px', 'calc(50% - 10px)', 'calc(50% - 10px)', 'easy');
                     break;
             }
+
+            setActiveBtn(event.target);
         }
+    });
+
+    document.querySelector('.title').addEventListener('click', () => {
+        renderField('320px', '320px', 'calc(50% - 10px)', 'calc(50% - 10px)', 'easy');
+        setActiveBtn(btnsLevel.querySelector("[data-btn='easy']"));
     });
 
    
