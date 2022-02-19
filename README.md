@@ -1,6 +1,6 @@
 # **MEMORY GAME**
 
-![screen](./assets/img/screen_memory_game.jpg)
+![screen](./assets/img/screen-memory.jpg)
 
 * HTML 
 * CSS
