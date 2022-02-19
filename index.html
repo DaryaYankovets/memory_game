@@ -8,25 +8,60 @@
     <title>Memory game</title>
 </head>
 <body>
+    <header>
+        <div class="hamburger-nav">
+            <div class="line line1"></div>
+            <div class="line line2"></div>
+            <div class="line line3"></div>
+        </div>
+        <nav class="nav">
+            <ul class="nav-items">
+                <li class="nav-item">
+                    Change player
+                </li>
+                <li class="nav-item">
+                    Level game
+                    <ul>
+                        <li class="nav-item-level"><button class="btn" data-btn="easy">Easy</button></li>
+                        <li class="nav-item-level"> <button class="btn" data-btn="middle">Middle</button></li>
+                        <li class="nav-item-level"><button class="btn" data-btn="difficult">Difficult</button></li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    Last results
+                </li>
+            </ul>
+        </nav>
+        <div class="blackout-box"></div>
+    </header>
+
     <main class="container-main">
-        <section class="information-block">
-            <span>
-                Count of moves: <span class="moves">0</span>
-            </span>
-            <span class="time">00:00:00</span>
-
-        </section>
-
         <section class="btns-levels">
             <button class="btn" data-btn="easy">Easy</button>
             <button class="btn" data-btn="middle">Middle</button>
             <button class="btn" data-btn="difficult">Difficult</button>
         </section>
 
+        <section class="information-block">
+            <div>
+                Count of moves: <span class="moves">0</span>
+            </div>
+            <div class="time">00:00:00</div>
+        </section>
+
         <section class="field-cards">
             <h1 class="title">Start game!</h1>
         </section>
     </main>
+    <div class="modal-container">
+        <div class="modal">
+            <div class="modal-title">Congratulations</div>
+            <div class="modal-body"></div>
+            <div class="modal-footer">
+                <button class="btn btn-modal">Ok</button>
+            </div>
+        </div>
+    </div>
     
     <footer class="container-footer">
         <ul>

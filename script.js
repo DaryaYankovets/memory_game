@@ -1,5 +1,9 @@
 document.addEventListener('DOMContentLoaded', () => {
 
+    let winners = [];
+    localStorage.setItem('winners', JSON.stringify(winners));
+    //console.log(localStorage.getItem('winners')); 
+
     const arrCards = {
         'easy': [
             'fox', 'fox', 
@@ -75,6 +79,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
     }
 
+    const renderWinners = () => {
+        const modalContent = document.querySelector('.modal-body');
+        //console.log(localStorage.getItem('winners'));
+
+        modalContent.innerHTML = '';
+
+        JSON.parse(localStorage.getItem('winners')).reverse().forEach(elem => {
+            const winner = createElement(
+                `${elem.name}: level '${elem.level}', count of moves '${elem.countOfMoves}', time '${elem.time}'`,
+                'item-winner',
+                null
+            );
+            modalContent.append(winner);
+        });
+    }
+
     function flipCard(elem) {
         if (blockFlip || elem === firstCard) {
             return;
@@ -106,15 +126,32 @@ document.addEventListener('DOMContentLoaded', () => {
     const checkCards = () => {
         if(firstCard.dataset.animal === secondCard.dataset.animal) {
             countOpenCards += 2;
+            countOfMoves++;
             disabledCards();
             resetBoard();
-            console.log(currentGame ,checkEndGame());
+
+            if(checkEndGame()) {
+                setTimeout(() => {document.querySelector('.modal-container').style.display = 'flex';}, 1000);
+                clearTimeout(timer);
+                setValuesLocalStorage();
+                renderWinners();
+            }
+
         } else {
             unflipCards();
+            countOfMoves++;
         }
 
-        countOfMoves++;
+        
         setTimeout(() => {setCountOfMoves()}, 1400);
+    }
+
+    const setValuesLocalStorage = () => {
+        const endTime = document.querySelector('.time').textContent;
+        winners = JSON.parse(localStorage.getItem('winners'));
+        winners.push({name: 'Darya', level: currentGame, countOfMoves: countOfMoves, time: endTime});
+        localStorage.setItem('winners', JSON.stringify(winners));
+        //console.log(localStorage.getItem('winners'));
     }
 
     const disabledCards = () => {
@@ -196,8 +233,28 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelector('.title').addEventListener('click', () => {
         renderField('320px', '320px', 'calc(50% - 10px)', 'calc(50% - 10px)', 'easy');
         setActiveBtn(btnsLevel.querySelector("[data-btn='easy']"));
+        currentGame = 'easy';
         setTimer();
     });
+
+    document.querySelector('.btn-modal').addEventListener('click', () => {
+        document.querySelector('.modal-container').style.display = 'none';
+    });
+
+
+
+    const hamburger = document.querySelector('.hamburger-nav');
+    const nav = document.querySelector('.nav');
+    const blackout = document.querySelector('.blackout-box');
+
+    function toggleMenu() {
+        hamburger.classList.toggle('open');
+        nav.classList.toggle('open-nav');
+        blackout.classList.toggle('blackout');
+    }
+    hamburger.addEventListener('click', toggleMenu);
+
+
 
    
     
