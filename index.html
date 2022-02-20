@@ -16,19 +16,21 @@
         </div>
         <nav class="nav">
             <ul class="nav-items">
-                <li class="nav-item">
-                    Change player
+                <li>
+                    <a class="nav-item nav-item-player" href="#">Change player</a> 
+                    <input class="nav-item-input-player" type="search" placeholder="Enter name">
                 </li>
-                <li class="nav-item">
-                    Level game
-                    <ul>
+                <li>
+                    <a class="nav-item nav-items-levels" href="#">Level game</a>
+                    <ul class="nav-item-levels">
                         <li class="nav-item-level"><button class="btn" data-btn="easy">Easy</button></li>
                         <li class="nav-item-level"> <button class="btn" data-btn="middle">Middle</button></li>
                         <li class="nav-item-level"><button class="btn" data-btn="difficult">Difficult</button></li>
                     </ul>
                 </li>
-                <li class="nav-item">
-                    Last results
+                <li>
+                    <a class="nav-item nav-item-last-results" href="#">Last results</a>
+                    <div class="results"></div>
                 </li>
             </ul>
         </nav>
@@ -51,14 +53,16 @@
 
         <section class="field-cards">
             <h1 class="title">Start game!</h1>
+            <input class="input-name" type="text" placeholder="Enter your name">
         </section>
     </main>
     <div class="modal-container">
         <div class="modal">
-            <div class="modal-title">Congratulations</div>
+            <div class="modal-title"><b>Congratulations!</b></div>
             <div class="modal-body"></div>
             <div class="modal-footer">
-                <button class="btn btn-modal">Ok</button>
+                <button class="btn btn-modal-ok">Ok</button> 
+                <button class="btn btn-modal-new-game">New game</button>
             </div>
         </div>
     </div>

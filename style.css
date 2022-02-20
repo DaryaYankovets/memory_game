@@ -40,6 +40,11 @@ ul {
     list-style-type: none;
 }
 
+a { 
+    text-decoration: none; 
+    color: var(--color-white);
+} 
+
 .container-main {
     margin: 25px auto;
 }
@@ -116,7 +121,7 @@ ul {
 }
 
 .nav-item {
-    margin: 10px 0;
+    margin: 20px 0;
 }
 
 .nav-item:hover {
@@ -124,10 +129,38 @@ ul {
     transition: 0.4s;
 }
 
+.nav-item-input-player {
+    display: none;
+    margin: 10px 0;
+    margin-left: 40px;
+    width: 150px;
+    height: 30px;
+    border: none;
+    border-bottom: 2px solid var(--color-gold);
+    background-color: rgba(0, 0, 0, 0);
+    text-align: center;
+    font-size: 18px;
+    outline: none;
+    color: var(--color-gold);
+}
+
+.nav-item-levels {
+    display: none;
+}
+
 .nav-item-level {
     margin-left: 30px;
 }
 
+.results {
+    margin-top: 10px;
+    padding: 7px;
+    font-size: 15px;
+}
+
+.results div {
+    margin: 7px 0;
+}
 
 .information-block {
     display: flex;
@@ -179,14 +212,27 @@ ul {
 .title {
     margin: auto;
     font-size: 50px;
-    color: var(--color-gold);
-    cursor: pointer;
+    color: var(--color-white);
+    cursor: pointer; 
 }
 
 .title:hover {
     text-shadow: 0 0 5px var(--color-gold), 0 0 15px var(--color-gold), 0 0 20px var(--color-gold), 0 0 50px var(--color-gold);
-    transition: 0.5s;
+    color: var(--color-black);
+    transition: 0.7s;
 } 
+
+.input-name {
+    width: 300px;
+    height: 60px;
+    border: none;
+    border-bottom: 3px solid var(--color-gold);
+    background-color: rgba(0, 0, 0, 0);
+    text-align: center;
+    font-size: 35px;
+    outline: none;
+    color: var(--color-gold);
+}
   
 .field-cards {
     display: flex;
@@ -260,11 +306,13 @@ ul {
 }
 
 .modal-body {
-    margin: 0 10px;
-    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     width: 100%;
     height: 55%;
-    font-size: 19px;
+    font-size: 24px;
 }
 
 .modal-footer {

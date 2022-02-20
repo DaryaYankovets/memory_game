@@ -1,8 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-    let winners = [];
-    localStorage.setItem('winners', JSON.stringify(winners));
-    //console.log(localStorage.getItem('winners')); 
+    let namePlayer = 'Unknown';
 
     const arrCards = {
         'easy': [
@@ -24,6 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let cards = document.querySelectorAll('.memory-card');
     const fieldCards = document.querySelector('.field-cards');
     const btnsLevel = document.querySelector('.btns-levels');
+    const btnsLevelNav = document.querySelector('.nav-item-levels');
 
     let firstCard, secondCard;
     let hasFlippedCard = false;
@@ -34,6 +33,21 @@ document.addEventListener('DOMContentLoaded', () => {
     let countOpenCards = 0;
 
     let timer;
+
+    const hamburger = document.querySelector('.hamburger-nav');
+    const nav = document.querySelector('.nav');
+    const blackout = document.querySelector('.blackout-box');
+
+    function toggleMenu() {
+        hamburger.classList.toggle('open');
+        nav.classList.toggle('open-nav');
+        blackout.classList.toggle('blackout');
+
+        document.querySelector('.nav-item-input-player').style.display = 'none';
+        document.querySelector('.nav-item-levels').style.display = 'none';
+        document.querySelector('.results').innerHTML = '';
+    }
+    hamburger.addEventListener('click', toggleMenu);
 
     const createElement = (html, className, dataAttr) => {
         const el = document.createElement('div');
@@ -80,19 +94,23 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     const renderWinners = () => {
-        const modalContent = document.querySelector('.modal-body');
-        //console.log(localStorage.getItem('winners'));
+        const winnerLS = JSON.parse(localStorage.getItem('winners'));
+        const blockResults = document.querySelector('.results');
 
-        modalContent.innerHTML = '';
-
-        JSON.parse(localStorage.getItem('winners')).reverse().forEach(elem => {
-            const winner = createElement(
-                `${elem.name}: level '${elem.level}', count of moves '${elem.countOfMoves}', time '${elem.time}'`,
-                'item-winner',
-                null
-            );
-            modalContent.append(winner);
-        });
+        if (winnerLS.length !== 0) {
+            blockResults.innerHTML = '';
+            winnerLS.reverse().length = 10;
+            winnerLS.forEach(elem => {
+                const winner = createElement(
+                    `${elem.name}: level '${elem.level}', count of moves '${elem.countOfMoves}', time '${elem.time}'`,
+                    'item-winner',
+                    null
+                );
+                blockResults.append(winner);
+            });
+        } else {
+            blockResults.innerHTML = 'No results!';
+        }   
     }
 
     function flipCard(elem) {
@@ -131,10 +149,15 @@ document.addEventListener('DOMContentLoaded', () => {
             resetBoard();
 
             if(checkEndGame()) {
+                const modalContent = document.querySelector('.modal-body');
+                modalContent.innerHTML = `
+                    <div><b>Level:</b> ${currentGame}</div> 
+                    <div><b>Count of moves:</b> ${countOfMoves}</div>
+                    <div><b>Time:</b> ${document.querySelector('.time').textContent}</div>
+                `;
                 setTimeout(() => {document.querySelector('.modal-container').style.display = 'flex';}, 1000);
                 clearTimeout(timer);
                 setValuesLocalStorage();
-                renderWinners();
             }
 
         } else {
@@ -142,7 +165,6 @@ document.addEventListener('DOMContentLoaded', () => {
             countOfMoves++;
         }
 
-        
         setTimeout(() => {setCountOfMoves()}, 1400);
     }
 
@@ -151,7 +173,6 @@ document.addEventListener('DOMContentLoaded', () => {
         winners = JSON.parse(localStorage.getItem('winners'));
         winners.push({name: 'Darya', level: currentGame, countOfMoves: countOfMoves, time: endTime});
         localStorage.setItem('winners', JSON.stringify(winners));
-        //console.log(localStorage.getItem('winners'));
     }
 
     const disabledCards = () => {
@@ -175,12 +196,21 @@ document.addEventListener('DOMContentLoaded', () => {
     }
  
     const setActiveBtn = (elem) => {
-        btnsLevel.querySelectorAll('.btn').forEach(btn => {
-            if (btn.closest('.btn-active')) {
-                btn.classList.remove('btn-active');
-            }
-        });
-        elem.classList.add('btn-active');
+        const deleteLastActiveBtn = (listBtn) => {
+            listBtn.forEach(btn => {
+                if (btn.closest('.btn-active')) {
+                    btn.classList.remove('btn-active');
+                }
+            });
+        }
+
+        deleteLastActiveBtn(btnsLevel.querySelectorAll('.btn'));
+        deleteLastActiveBtn(btnsLevelNav.querySelectorAll('.btn'));
+        
+        const level = elem.dataset.btn;
+        btnsLevel.querySelector(`[data-btn="${level}"]`).classList.add('btn-active');
+        btnsLevelNav.querySelector(`[data-btn='${level}']`).classList.add('btn-active');  
+
     }
 
     const setTimer = () => {
@@ -201,13 +231,13 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 1000);
     }
 
-    btnsLevel.addEventListener('click', (event) => {
-        if (event.target.closest('.btn')) {
+    const startGame = (elem) => {
+        if (elem.closest('.btn')) {
             countOfMoves = 0;
             clearInterval(timer);
             setCountOfMoves();
 
-            const activeBtn = event.target.dataset.btn;
+            const activeBtn = elem.dataset.btn;
 
             switch (activeBtn) {
                 case 'easy': 
@@ -225,9 +255,18 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             currentGame = activeBtn;
             countOpenCards = 0;
-            setActiveBtn(event.target);
+            setActiveBtn(elem);
             setTimer();
         }
+    }
+
+    btnsLevel.addEventListener('click', (event) => {
+        startGame(event.target);
+    });
+
+    btnsLevelNav.addEventListener('click', (event) => {
+        startGame(event.target);
+        toggleMenu();
     });
 
     document.querySelector('.title').addEventListener('click', () => {
@@ -237,37 +276,33 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimer();
     });
 
-    document.querySelector('.btn-modal').addEventListener('click', () => {
+    document.querySelector('.btn-modal-ok').addEventListener('click', () => {
         document.querySelector('.modal-container').style.display = 'none';
     });
 
+    document.querySelector('.btn-modal-new-game').addEventListener('click', () => {
+        document.querySelector('.modal-container').style.display = 'none';
+        startGame(btnsLevel.querySelector(`[data-btn="${currentGame}"]`));
+    });
 
-
-    const hamburger = document.querySelector('.hamburger-nav');
-    const nav = document.querySelector('.nav');
-    const blackout = document.querySelector('.blackout-box');
-
-    function toggleMenu() {
-        hamburger.classList.toggle('open');
-        nav.classList.toggle('open-nav');
-        blackout.classList.toggle('blackout');
-    }
-    hamburger.addEventListener('click', toggleMenu);
-
-
-
-   
-    
-
-   
-
-    
-
-    
-
-    
-    
-
+    document.querySelector('.nav').addEventListener('click', (event) => {
+        if (event.target.closest('.nav-item-player')) {
+            document.querySelector('.nav-item-input-player').style.display = 'block';
+            document.querySelector('.nav-item-levels').style.display = 'none';
+            document.querySelector('.results').innerHTML = '';
+        }
+        if (event.target.closest('.nav-items-levels')) {
+            document.querySelector('.nav-item-levels').style.display = 'block';
+            document.querySelector('.nav-item-input-player').style.display = 'none';
+            document.querySelector('.results').innerHTML = '';
+        }
+        if (event.target.closest('.nav-item-last-results')) {
+            renderWinners();
+            document.querySelector('.nav-item-input-player').style.display = 'none';
+            document.querySelector('.nav-item-levels').style.display = 'none';
+        }
+        
+    });
 
 
 
