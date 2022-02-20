@@ -88,10 +88,12 @@ document.addEventListener('DOMContentLoaded', () => {
             card.style.setProperty('width', widthCard);
             card.style.setProperty('height', heightCard);
 
-            card.addEventListener('click', (event) => flipCard(event.currentTarget));
+            //card.addEventListener('click', (event) => flipCard(event.currentTarget));
+            card.addEventListener('click', flipCard);
         });
 
     }
+
 
     const renderWinners = () => {
         const winnerLS = JSON.parse(localStorage.getItem('winners'));
@@ -102,29 +104,43 @@ document.addEventListener('DOMContentLoaded', () => {
             winnerLS.reverse().length = 10;
             winnerLS.forEach(elem => {
                 const winner = createElement(
-                    `${elem.name}: level '${elem.level}', count of moves '${elem.countOfMoves}', time '${elem.time}'`,
+                    `<div class="item-result">${elem.name}</div>
+                    <div class="item-result">${elem.level}</div>
+                    <div class="item-result">${elem.countOfMoves}</div>
+                    <div class="item-result">${elem.time}</div>`,
                     'item-winner',
                     null
                 );
                 blockResults.append(winner);
             });
+
+            const titleResult = createElement(
+                `<div class="item-result">Name</div>
+                <div class="item-result">Level</div>
+                <div class="item-result">Moves</div>
+                <div class="item-result">Time</div>`,
+                'title-results',
+                null
+            );
+            blockResults.prepend(titleResult);
+
         } else {
             blockResults.innerHTML = 'No results!';
         }   
     }
 
-    function flipCard(elem) {
-        if (blockFlip || elem === firstCard) {
+    function flipCard() {
+        if (blockFlip || this === firstCard) {
             return;
         }
 
-        elem.classList.add('flip');
+        this.classList.add('flip');
 
         if (!hasFlippedCard){
             hasFlippedCard = true;
-            firstCard = elem;
+            firstCard = this;
         } else {
-            secondCard = elem;
+            secondCard = this;
             checkCards();
         }
     }
@@ -171,11 +187,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const setValuesLocalStorage = () => {
         const endTime = document.querySelector('.time').textContent;
         winners = JSON.parse(localStorage.getItem('winners'));
-        winners.push({name: 'Darya', level: currentGame, countOfMoves: countOfMoves, time: endTime});
+        winners.push({name: namePlayer, level: currentGame, countOfMoves: countOfMoves, time: endTime});
         localStorage.setItem('winners', JSON.stringify(winners));
     }
 
-    const disabledCards = () => {
+    function disabledCards() {
         firstCard.removeEventListener('click', flipCard);
         secondCard.removeEventListener('click', flipCard);
     }
@@ -301,9 +317,39 @@ document.addEventListener('DOMContentLoaded', () => {
             document.querySelector('.nav-item-input-player').style.display = 'none';
             document.querySelector('.nav-item-levels').style.display = 'none';
         }
-        
+ 
     });
 
+    document.querySelector('.repeat-game').addEventListener('click', () => {
+        if(currentGame) {
+           startGame(btnsLevel.querySelector(`[data-btn="${currentGame}"]`)); 
+        } 
+    });
 
+    document.querySelector('.input-name').addEventListener('keypress', (event) => {
+        if (event.keyCode === 13) {
+            enterNamePlayer = document.querySelector('.input-name').value;
+            
+            if (enterNamePlayer.length !== 0) {
+               namePlayer = enterNamePlayer;
+               document.querySelector('.block-name').innerHTML = `Hello, ${namePlayer}. Enter button "Start game" or choose level.`; 
+               document.querySelector('.nav-item-input-player').placeholder = `Current player: ${namePlayer}`;
+            }
+        }
+    }); 
+
+    document.querySelector('.nav-item-input-player').addEventListener('keypress', (event) => {
+        if (event.keyCode === 13) {
+            enterNamePlayer = document.querySelector('.nav-item-input-player').value;
+
+            if (enterNamePlayer.length !== 0) {
+                namePlayer = enterNamePlayer;
+                document.querySelector('.nav-item-input-player').placeholder = `Current player: ${namePlayer}`;
+                document.querySelector('.nav-item-input-player').value = '';
+                document.querySelector('.field-cards').innerHTML = `Hello, ${namePlayer}!`; 
+                toggleMenu();
+            }
+        }
+    }); 
 
 });

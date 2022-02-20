@@ -132,8 +132,7 @@ a {
 .nav-item-input-player {
     display: none;
     margin: 10px 0;
-    margin-left: 40px;
-    width: 150px;
+    width: 200px;
     height: 30px;
     border: none;
     border-bottom: 2px solid var(--color-gold);
@@ -142,6 +141,11 @@ a {
     font-size: 18px;
     outline: none;
     color: var(--color-gold);
+    cursor: pointer;
+}
+
+.nav-item-input-player::placeholder {
+    font-size: 16px;
 }
 
 .nav-item-levels {
@@ -158,13 +162,27 @@ a {
     font-size: 15px;
 }
 
-.results div {
-    margin: 7px 0;
+.title-results  {
+    display: flex; 
+    text-align: center;  
 }
 
-.information-block {
+.item-result {
+    padding: 5px;
+    width: 90px;
+    border: 1px solid var(--color-gold);
+}
+
+.item-winner {
+    display: flex;
+    color: var(--color-gold);
+    text-align: center;  
+}
+
+.section-information {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     flex-wrap: wrap;
     margin-bottom: 10px;
     padding: 7px;
@@ -172,8 +190,18 @@ a {
     color: var(--color-gold);
 }
 
-.information-block div {
-    margin-right: 15px;
+.section-information div {
+    margin-right: 35px;
+}
+
+.repeat-game {
+    width: 40px;
+    height: 40px;
+}
+
+.repeat-game:hover {
+    filter: invert(50%) sepia(10%) saturate(500%) hue-rotate(7deg) brightness(92%) contrast(90%);
+    transition: 0.3s;
 }
 
 .btns-levels {
@@ -232,16 +260,27 @@ a {
     font-size: 35px;
     outline: none;
     color: var(--color-gold);
+    cursor: pointer;
+}
+
+.block-name {
+    color: var(--color-gold);
+    font-size: 30px;
+    text-align: center;
 }
   
 .field-cards {
     display: flex;
+    justify-content: center;
+    align-items: center;
     flex-wrap: wrap;
     margin: auto;
     width: 320px;
     height: 320px;
     max-width: max(97%, 320px);
     perspective: 1000px;
+    color: var(--color-gold);
+    font-size: 40px;
 }
 
 .memory-card {
@@ -343,7 +382,7 @@ a {
         display: none;
     }
 
-    .information-block {
+    .section-information {
         margin-top: 60px;
     }
 }
